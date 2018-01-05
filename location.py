@@ -67,3 +67,9 @@ if __name__ == '__main__':
     address = coordinate2address(latitude, longitude)
 
     print(address)
+
+    # program result:
+    # mapdata/china.json
+    # mapdata/geometryProvince/44.json
+    # mapdata/geometryCouties/441400.json
+    # [{'province': '广东省'}, {'city': '梅州市'}, {'county': '梅县'}]
