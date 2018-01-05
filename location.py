@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-geojson_data = {}
-
 import json
 from shapely.geometry import shape, Point
+
+geojson_data = {}
 
 
 def coordinate2address(latitude, longitude):
@@ -61,7 +61,8 @@ def _dfs(map_key, point, result=[]):
 
 
 if __name__ == '__main__':
-    longitude, latitude = 22.948415571098632, 113.30865
+    # 梅州市梅县区人民政府
+    longitude, latitude = 24.26768369961935, 116.08131000000003
 
     address = coordinate2address(latitude, longitude)
 
