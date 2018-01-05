@@ -21,3 +21,7 @@
     # mapdata/geometryCouties/441400.json
     # [{'province': '广东省'}, {'city': '梅州市'}, {'county': '梅县'}]
 ```
+
+## 后续
+- geo.json数据源文件编码由UTF-8-with-BOM改为UTF-8无BOM格式
+- 大量测试案例
