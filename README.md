@@ -9,8 +9,8 @@
 ## 使用
 #### Python示例
 ```
-    # 梅州市梅县区人民政府
-    longitude, latitude = 24.26768369961935, 116.08131000000003
+    # 梅县松口车站
+    longitude, latitude = 24.5045787219, 116.4040174622
     address = coordinate2address(latitude, longitude)
     print(address)
 ```
