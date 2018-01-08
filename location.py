@@ -33,8 +33,6 @@ def _dfs(id_, point, result=[]):
             map_file_str = 'mapdata/geometryProvince/%s.json' % id_
         elif len(id_) == 4:
             map_file_str = 'mapdata/geometryCouties/%s00.json' % id_
-        elif len(id_) == 6 and id_[-2:] == '00':
-            map_file_str = 'mapdata/geometryCouties/%s.json' % id_
         else:
             return
 
@@ -43,6 +41,7 @@ def _dfs(id_, point, result=[]):
         try:
             with open(map_file_str, encoding='UTF-8-SIG') as f:
                 map_data = json.load(f)
+                _geojson_data[id_] = map_data
         except Exception as e:
             print(e)
             return
