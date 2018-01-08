@@ -23,43 +23,49 @@ def coordinate2address(latitude, longitude):
     return address
 
 
-def _dfs(map_key, point, result=[]):
-    level = 'province'
-    if len(map_key) == 2:
-        level = 'city'
-    elif len(map_key) == 4:
-        level = 'county'
+def _dfs(id_, point, result=[]):
+    map_data = _geojson_data.get(id_)
 
-    map_data = _geojson_data.get(map_key)
-
-    if not map_data:
-        if map_key == 'china':  # find in country
+    if map_data is None:
+        if id_ == 'china':
             map_file_str = 'mapdata/china.json'
-        elif len(map_key) == 2:  # find in province
-            map_file_str = 'mapdata/geometryProvince/%s.json' % map_key
-        elif len(map_key) == 4:  # find in city
-            map_file_str = 'mapdata/geometryCouties/%s00.json' % map_key
+        elif len(id_) == 2:
+            map_file_str = 'mapdata/geometryProvince/%s.json' % id_
+        elif len(id_) == 4:
+            map_file_str = 'mapdata/geometryCouties/%s00.json' % id_
+        elif len(id_) == 6 and id_[-2:] == '00':
+            map_file_str = 'mapdata/geometryCouties/%s.json' % id_
         else:
             return
 
-        print(map_file_str)  # debug log
+        print(map_file_str)
 
         try:
             with open(map_file_str, encoding='UTF-8-SIG') as f:
                 map_data = json.load(f)
         except Exception as e:
-            print(e)  # debug log
+            print(e)
             return
 
     for feature in map_data['features']:
         polygon = shape(feature['geometry'])
 
         if polygon.contains(point):
+            id_ = feature['properties']['id']
             name = feature['properties']['name']
+
+            if len(id_) == 2:
+                level = 'province'
+            elif len(id_) == 4:
+                level = 'city'
+            elif len(id_) == 6:
+                level = 'county'
+            else:
+                return
+
             result.append((level, name))
 
-            sub_map_key = feature['properties']['id']
-            _dfs(sub_map_key, point, result)
+            _dfs(id_, point, result)
 
             return
 
@@ -67,5 +73,5 @@ def _dfs(map_key, point, result=[]):
 if __name__ == '__main__':
     # 梅县松口车站
     longitude, latitude = 24.5045787219, 116.4040174622
-    address = coordinate2address(latitude, longitude)
+    address = coordinate2address(latitude, longitude)  # 13ms
     print(address)
